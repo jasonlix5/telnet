@@ -301,7 +301,7 @@ func (c *Conn) Read(buf []byte) (int, error) {
 }
 
 // ReadBytes works like bufio.ReadBytes
-func (c *Conn) ReadBytes(delim byte) ([]byte, error) {
+func (c *Conn) ReadBytes(delim ...byte) ([]byte, error) {
 	var line []byte
 	for {
 		b, err := c.ReadByte()
@@ -309,8 +309,11 @@ func (c *Conn) ReadBytes(delim byte) ([]byte, error) {
 			return nil, err
 		}
 		line = append(line, b)
-		if b == delim {
-			break
+		if len(line) >= len(delim) {
+			if d := line[len(line)-len(delim):]; bytes.Equal(d, delim) {
+				break
+
+			}
 		}
 	}
 	return line, nil
