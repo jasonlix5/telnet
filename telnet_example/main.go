@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/ziutek/telnet"
 	"log"
 	"os"
 	"time"
+
+	"github.com/jasonlix5/telnet"
 )
 
 const timeout = 10 * time.Second
@@ -51,13 +52,15 @@ func main() {
 		sendln(t, "ls -l")
 		data, err = t.ReadBytes('$')
 	case "cisco":
-		expect(t, "name: ")
+		expect(t, "name:")
 		sendln(t, user)
-		expect(t, "ssword: ")
+		expect(t, "ssword:")
 		sendln(t, passwd)
 		expect(t, ">")
-		sendln(t, "sh ver")
-		data, err = t.ReadBytes('>')
+		sendln(t, "screen-length 0 temporary")
+		expect(t, ">")
+		sendln(t, "dis cu")
+		data, err = t.ReadBytes([]byte("5>")...)
 	default:
 		log.Fatalln("bad host type: " + typ)
 	}
