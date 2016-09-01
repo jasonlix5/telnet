@@ -325,7 +325,7 @@ func (c *Conn) ReadAll() ([]byte, error) {
 	for {
 		b, err := c.ReadByte()
 		if err != nil {
-			return data, err
+			break
 		}
 		data = append(data, b)
 	}
