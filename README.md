@@ -1,1 +1,1 @@
-[documentation](http://godoc.org/github.com/ziutek/telnet)
+[documentation](http://godoc.org/github.com/jasonlix5/telnet)
