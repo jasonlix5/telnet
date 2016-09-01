@@ -319,6 +319,20 @@ func (c *Conn) ReadBytes(delim ...byte) ([]byte, error) {
 	return line, nil
 }
 
+// ReadAll works like ReadByes but read all the data.
+func (c *Conn) ReadAll() ([]byte, error) {
+	var data []byte
+	for {
+		b, err := c.ReadByte()
+		if err != nil {
+			data = append(data, err)
+			break
+		}
+		data = append(data, b)
+	}
+	return data, nil
+}
+
 // SkipBytes works like ReadBytes but skips all read data.
 func (c *Conn) SkipBytes(delim byte) error {
 	for {
